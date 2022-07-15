@@ -1,0 +1,51 @@
+﻿@model Library.Models.LibraryModel
+
+@{
+    ViewData["Title"] = "Books Listing";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Books Library</h1>
+</div>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Author</th>
+                <th>Title</th>
+                <th>Genre</th>
+                <th>Price</th>
+                <th>Publish Date</th>
+                <th>Description</th>
+                <th>Availability</th>
+                <th>Borrowed By</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in Model.Books)
+            {
+                <tr>
+                    <td>@book.Id</td>
+                    <td>@book.Author</td>
+                    <td>@book.Title</td>
+                    <td>@book.Genre</td>
+                    <td>@book.Price</td>
+                    <td>@book.PublishDate.ToShortDateString()</td>
+                    <td>@book.Description</td>
+                    <td>
+                        @if (!book.IsBorrowed)
+                        { <label>Available</label> }
+                        else
+                        { <label>Borrowed</label> }
+                    </td>
+                    <td>@book.BorrowedBy</td>
+                    <td>
+                        @Html.Partial("../Shared/Actions/_actions.cshtml", @book)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

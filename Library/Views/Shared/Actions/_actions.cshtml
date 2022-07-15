@@ -1,0 +1,25 @@
+﻿@model Library.Models.BookModel
+@using Library.Services
+@inject IUserInfoService _userInfoservice
+
+<form asp-action="Borrow">
+@{
+    var currentUserId = _userInfoservice.GetInfo().UserId;
+    if (!@Model.IsBorrowed)
+    {
+        <input type="hidden" name="id" value="@Model.Id" />
+        <input type="hidden" name="action" value="borrow" />
+        <button type='submit' name='borrow' value='Borrow'>Borrow</button>
+    }
+    else if (Model.BorrowedBy.Equals(@currentUserId))
+    {
+        <input type="hidden" name="id" value="@Model.Id" />
+        <input type="hidden" name="action" value="return" />
+        <button type='submit' name='return' value='return'>Return</button>
+    }
+    else
+    {
+        <label>@Model.BorrowedBy</label>
+    }
+}
+</form>
